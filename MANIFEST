@@ -1,8 +1,9 @@
+ChangeLog	Changes from version to version (Safe.pm and Safe.xs only)
 Copying		The GNU General Public License
 MANIFEST	This list of files
 Makefile.PL	Run through perl to create Makefile
 README		Introduction to the Safe extension
-README.announce	Announcement for the beta1 version of Safe
+README.b1	Announcement for the beta1 version of Safe
 Safe.pm		Safe extension module
 Safe.xs		Safe extension implementation
 test.results	Brief comments on executing standard perl tests under Safe.

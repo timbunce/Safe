@@ -1,0 +1,36 @@
+Thu Aug 31 16:46:07 1995  Malcolm Beattie  <mbeattie@sable.ox.ac.uk>
+
+	* Safe.pm:
+	Changed the way $_ and @_ get shared with a new Safe compartment.
+
+	* Safe.xs: Changed safe_call_sv to ignore END { } blocks.
+
+Tue Aug 22 15:41:17 1995  Malcolm Beattie  <mbeattie@sable.ox.ac.uk>
+
+	* Safe.xs: ST(0) needed initialising to sv_newmortal() in ops_to_mask
+
+	* Safe.pm: Added emptymask, fullmask, varglob.
+	"sort" now trapped by default.
+	Fixed setmaskel method for numeric arguments.
+	Rewrote share method.
+
+Mon Jun 19 15:58:00 1995  Malcolm Beattie  <mbeattie@sable.ox.ac.uk>
+
+	* Safe.pm:
+	safe_call_sv modified to avoid perl longjmp/top_env bug. OO-ified.
+
+Fri May 26 17:11:49 1995  Malcolm Beattie  <mbeattie@sable.ox.ac.uk>
+
+	* Safe.pm:
+	Propagates error from reval'd code by return value instead of dying.
+
+	* Safe.xs: Returns error from sub rather than propagation by dying
+
+	* Safe.xs: Propagates $@ OK but a little messily
+
+	* Safe.pm: Propagates $@ OK but a little messily.
+
+Thu May 25 11:34:15 1995  Malcolm Beattie  <mbeattie@sable.ox.ac.uk>
+
+	* Safe.pm, Safe.xs: Initial revision
+

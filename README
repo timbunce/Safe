@@ -20,7 +20,7 @@ This software is licensed under the GNU General Public License
 
 INTRODUCTION
 
-This is the beta1 release of a Safe extension to perl5. Since the
+This is the beta2 release of a Safe extension to perl5. Since the
 extension attempts to provide a safe environment in which to execute
 possibly unsafe perl code, you should (re)read the paragraphs above
 concerning lack of warranty.
@@ -64,6 +64,19 @@ If the t/mask.t test fails then you should check that your version of
 perl has the necessary code in op.c to understand operator masks.
 Re-read the introduction section above to check what needs to be done.
 
+CHANGES
+
+There are only two differences between beta1. One is a slight change
+to Safe.pm which corrects the way $_ and @_ are shared with new Safe
+compartments. Formerly, code in a compartment which used the "package"
+statement to switch packages failed to pick up the correct magic $_
+and @_ in the new package. The other change was to Safe.xs and made
+END { } blocks be ignored when evaluated in Safe compartments.
+Formerly, END { } blocks written in Safe compartments were executed
+when the whole program finished in a context which potentially left
+some access to code outside the compartment. Since this is a security
+hole, I've made a new release of the Safe distribution for safety's sake.
+
 Malcolm Beattie
 mbeattie@sable.ox.ac.uk
 
@@ -71,3 +84,4 @@ pre-release	26 April 1995
 alpha1		26 May 1995
 alpha2		19 June 1995
 beta1		22 August 1995
+beta2		31 August 1995

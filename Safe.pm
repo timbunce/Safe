@@ -269,8 +269,11 @@ sub new {
     $obj->mask(defined($mask) ? $mask : $default_mask);
     # We must share $_ and @_ with the compartment or else ops such
     # as split, length and so on won't default to $_ properly, nor
-    # will passing argument to subroutines work (via @_).
-    $obj->share(qw($_ @_));
+    # will passing argument to subroutines work (via @_). In fact,
+    # for reasons I don't completely understand, we need to share
+    # the whole glob *_ rather than $_ and @_ separately, otherwise
+    # @_ in non default packages within the compartment don't work.
+    *{$obj->root . "::_"} = *_;
     return $obj;
 }
 

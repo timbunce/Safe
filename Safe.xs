@@ -17,6 +17,7 @@ safe_call_sv(package, mask, codesv)
 	ENTER;
 	SAVETMPS;
 	save_hptr(&defstash);
+	save_aptr(&endav);
 	SAVEPPTR(op_mask);
 	Newz(666, op_mask, MAXO, char);
 	SAVEFREEPV(op_mask);
@@ -24,6 +25,7 @@ safe_call_sv(package, mask, codesv)
 	for (i = 0; i < MAXO && i < len; i++)
 	    op_mask[i] = str[i];
 	defstash = gv_stashpv(package, TRUE);
+	endav = (AV*)sv_2mortal((SV*)newAV()); /* Ignore END blocks for now */
 	GvHV(gv_fetchpv("main::", TRUE, SVt_PVHV)) = defstash;
 	PUSHMARK(sp);
 	i = perl_call_sv(codesv, G_SCALAR|G_EVAL);
