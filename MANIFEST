@@ -1,0 +1,15 @@
+Copying		The GNU General Public License
+MANIFEST	This list of files
+Makefile.PL	Run through perl to create Makefile
+README		Introduction to the Safe extension
+README.announce	Announcement for the beta1 version of Safe
+Safe.pm		Safe extension module
+Safe.xs		Safe extension implementation
+test.results	Brief comments on executing standard perl tests under Safe.
+opmask.patch	Patch to make perl opmask-aware (unless already included)
+safedo		A quick hack of a program for executing stuff under Safe.
+safeops		A list of the ops *allowed* in the default mask (for info).
+t/names.t	Test namespace of a Safe compartment
+t/mask.t	Test operation mask in a Safe compartment
+t/share.t	Test sharing variables with a Safe compartment
+t/misc.t	Test miscellaneous stuff in a Safe compartment

@@ -1,0 +1,130 @@
+base/lex.t
+	Needs untrapped backticks
+
+base/term.t
+	Needs untrapped backticks, open, -c
+
+cmd/mod.t
+	Needs untrapped open
+
+cmd/subval.t
+	Needs untrapped open, unlink
+not ok  Safe::Root000000000:(eval 2):108 ne ::
+	Test involves "caller" which looks different.
+
+cmd/while.t
+	Needs untrapped open, backticks, unlink
+
+comp/term.t 
+not ok 13
+	Needs $" shared with compartment
+
+comp/cpp.t
+	Needs untrapped open, -e, exit, backticks, unlink
+not ok 2
+	Doesn't run because it's catted and eval'd instead of run properly
+
+comp/multiline.t
+	Needs untrapped open, backticks, unlink
+
+io/argv.t
+	Needs untrapped open, backticks
+	Needs @ARGV in compartment (to replace it and re-use <>).
+
+io/dup.t
+	Needs untrapped open, system, unlink
+	Needs STDIN, STDERR, STDOUT file handles available from compartment
+
+
+io/fs.t
+	Needs untrapped, symlink, utime, rename, unlink, chmod, stat,
+	link, open, umask, chdir, backticks
+
+io/inplace.t
+	Needs untrapped unlink, backticks
+	Needs STDIN, STDERR, STDOUT file handles available from
+	compartment (even though they're not named explicitly)
+
+io/pipe.t
+	Needs untrapped fork, pipe, exec, open
+
+io/print.t
+	Needs untrapped open
+
+io/tell.t
+	Needs untrapped open
+
+op/eval.t
+	Needs untrapped open, unlink, "do 'file'"
+
+op/exec.t
+	Needs untrapped exec, system
+
+op/flip.t
+	Needs untrapped open
+
+op/fork.t
+	Needs untrapped fork, kill
+
+op/glob.t
+	Needs $/ in compartment.
+
+op/goto.t
+	Needs untrapped exit, backticks
+
+op/groups.t
+	Needs untrapped exit, backticks, -x
+	[Note that $( does *not* need to be explicitly copied
+	to the compartment: it works anyway]
+
+op/magic.t
+	Needs untrapped backticks, unlink, open, system
+	Needs %ENV in compartment
+
+op/misc.t
+	Needs untrapped chdir, -d, -f, unlink, open, backticks 
+	The <DATA> filehandle for __END__ doesn't work (probably
+	just because it's in an eval)
+
+op/mkdir.t
+	Needs untrapped backticks, -d, mkdir, rmdir
+
+op/overload.t
+	Needs untrapped require
+
+op/pack.t
+	Needs untrapped pack, unpack, open
+
+op/pat.t
+	Needs untrapped exit
+
+op/rand.t
+	Needs untrapped exit
+
+op/read.t
+	Needs untrapped open
+
+op/readdir.t
+	Needs untrapped exit, opendir
+
+op/regexp.t
+	Needs untrapped open
+
+op/sort.t
+	Needs $" shared with compartment
+
+op/split.t
+	Needs untrapped backticks
+
+op/stat.t
+	Needs untrapped unlink, backticks, open, stat, -z, -s, chmod,
+	-r, -w, -x, -f, -d, -l, -O, -e, -c, -S, -b, chdir, -T, -B, -u
+	-t needs STDIN filehandle available in compartment.
+
+op/time.t
+	Needs untrapped exit
+
+op/write.t
+	Needs untrapped open, backticks, unlink
+not ok 3
+	Looks like a strange "format" problem with symtable entries.

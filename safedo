@@ -1,0 +1,38 @@
+#!/usr/local/bin/perl5
+require 5.001;
+use Safe;
+
+if (@ARGV == 1 && $ARGV[0] eq "-h") {
+    warn "Usage: safedo [-t op] [-u op] [-s varname] [-e] [filename]\n";
+    exit 2;
+}
+
+$cpt = new Safe 'Cpt';
+
+while ($ARGV[0] =~ /^-([stu])/) {
+    $flag = $1;
+    $arg = $ARGV[1];
+    if ($flag eq 's') {
+	$cpt->share($arg);
+    } elsif ($flag eq 't') {
+	$cpt->trap($arg);
+    } elsif ($flag eq 'u') {
+	$cpt->untrap($arg);
+    } else {
+	die "panic: unhandled option";
+    }
+    shift; shift;
+}
+
+if ($ARGV[0] eq "-e") {
+    $error = $cpt->reval($ARGV[1]);
+} elsif ($ARGV[0] =~ /^-?$/) {
+    $error = $cpt->reval(join('', <STDIN>));
+} else {
+    $error = $cpt->rdo($ARGV[0]);
+}
+if ($error) {
+    print STDERR $error;
+    exit(1);
+}
+exit(0);

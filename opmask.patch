@@ -1,0 +1,183 @@
+*** interp.sym.ORI	Tue Apr 25 14:28:07 1995
+--- interp.sym	Tue Apr 25 14:28:42 1995
+***************
+*** 96,101 ****
+--- 96,102 ----
+  ofslen
+  oldlastpm
+  oldname
++ op_mask
+  origargc
+  origargv
+  origfilename
+*** perl.h.ORI	Tue Apr 25 14:28:11 1995
+--- perl.h	Tue Apr 25 14:28:42 1995
+***************
+*** 1287,1292 ****
+--- 1287,1293 ----
+  IEXT U8		Ilocalizing;	/* are we processing a local() list? */
+  IEXT bool	Itainted;	/* using variables controlled by $< */
+  IEXT bool	Itainting;	/* doing taint checks */
++ IEXT char *	Iop_mask IINIT(NULL);	/* masked operations for safe evals */
+  
+  /* trace state */
+  IEXT I32	Idlevel;
+*** op.c.ORI	Tue Apr 25 14:28:27 1995
+--- op.c	Tue Apr 25 14:33:45 1995
+***************
+*** 18,23 ****
+--- 18,35 ----
+  #include "EXTERN.h"
+  #include "perl.h"
+  
++ #ifdef USE_OP_MASK
++ /*
++  * In the following definition, the ", (OP *) op" is just to make the compiler
++  * think the expression is of the right type: croak actually does a longjmp.
++  */
++ #define CHECKOP(type,op) ((op_mask && op_mask[type]) ? \
++     (croak("%s trapped by operation mask", op_name[type]), (OP *) op) \
++     : (*check[type])((OP *) op))
++ #else
++ #define CHECKOP(type,op) (*check[type])(op)
++ #endif /* USE_OP_MASK */
++ 
+  static I32 list_assignment _((OP *op));
+  static OP *bad_type _((I32 n, char *t, OP *op, OP *kid));
+  static OP *modkids _((OP *op, I32 type));
+***************
+*** 1441,1447 ****
+      op->op_ppaddr = ppaddr[type];
+      op->op_flags |= flags;
+  
+!     op = (*check[type])(op);
+      if (op->op_type != type)
+  	return op;
+  
+--- 1453,1459 ----
+      op->op_ppaddr = ppaddr[type];
+      op->op_flags |= flags;
+  
+!     op = CHECKOP(type, op);
+      if (op->op_type != type)
+  	return op;
+  
+***************
+*** 1617,1623 ****
+  	scalar(op);
+      if (opargs[type] & OA_TARGET)
+  	op->op_targ = pad_alloc(type, SVs_PADTMP);
+!     return (*check[type])(op);
+  }
+  
+  OP *
+--- 1629,1635 ----
+  	scalar(op);
+      if (opargs[type] & OA_TARGET)
+  	op->op_targ = pad_alloc(type, SVs_PADTMP);
+!     return CHECKOP(type, op);
+  }
+  
+  OP *
+***************
+*** 1640,1646 ****
+      unop->op_flags = flags | OPf_KIDS;
+      unop->op_private = 1;
+  
+!     unop = (UNOP*)(*check[type])((OP*)unop);
+      if (unop->op_next)
+  	return (OP*)unop;
+  
+--- 1652,1658 ----
+      unop->op_flags = flags | OPf_KIDS;
+      unop->op_private = 1;
+  
+!     unop = (UNOP*) CHECKOP(type, unop);
+      if (unop->op_next)
+  	return (OP*)unop;
+  
+***************
+*** 1673,1679 ****
+  	first->op_sibling = last;
+      }
+  
+!     binop = (BINOP*)(*check[type])((OP*)binop);
+      if (binop->op_next)
+  	return (OP*)binop;
+  
+--- 1685,1691 ----
+  	first->op_sibling = last;
+      }
+  
+!     binop = (BINOP*)CHECKOP(type, binop);
+      if (binop->op_next)
+  	return (OP*)binop;
+  
+***************
+*** 1905,1911 ****
+  	scalar((OP*)svop);
+      if (opargs[type] & OA_TARGET)
+  	svop->op_targ = pad_alloc(type, SVs_PADTMP);
+!     return (*check[type])((OP*)svop);
+  }
+  
+  OP *
+--- 1917,1923 ----
+  	scalar((OP*)svop);
+      if (opargs[type] & OA_TARGET)
+  	svop->op_targ = pad_alloc(type, SVs_PADTMP);
+!     return CHECKOP(type, svop);
+  }
+  
+  OP *
+***************
+*** 1925,1931 ****
+  	scalar((OP*)gvop);
+      if (opargs[type] & OA_TARGET)
+  	gvop->op_targ = pad_alloc(type, SVs_PADTMP);
+!     return (*check[type])((OP*)gvop);
+  }
+  
+  OP *
+--- 1937,1943 ----
+  	scalar((OP*)gvop);
+      if (opargs[type] & OA_TARGET)
+  	gvop->op_targ = pad_alloc(type, SVs_PADTMP);
+!     return CHECKOP(type, gvop);
+  }
+  
+  OP *
+***************
+*** 1945,1951 ****
+  	scalar((OP*)pvop);
+      if (opargs[type] & OA_TARGET)
+  	pvop->op_targ = pad_alloc(type, SVs_PADTMP);
+!     return (*check[type])((OP*)pvop);
+  }
+  
+  OP *
+--- 1957,1963 ----
+  	scalar((OP*)pvop);
+      if (opargs[type] & OA_TARGET)
+  	pvop->op_targ = pad_alloc(type, SVs_PADTMP);
+!     return CHECKOP(type, pvop);
+  }
+  
+  OP *
+***************
+*** 1967,1973 ****
+  	scalar((OP*)cvop);
+      if (opargs[type] & OA_TARGET)
+  	cvop->op_targ = pad_alloc(type, SVs_PADTMP);
+!     return (*check[type])((OP*)cvop);
+  }
+  
+  void
+--- 1979,1985 ----
+  	scalar((OP*)cvop);
+      if (opargs[type] & OA_TARGET)
+  	cvop->op_targ = pad_alloc(type, SVs_PADTMP);
+!     return CHECKOP(type, cvop);
+  }
+  
+  void
