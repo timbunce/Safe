@@ -1,0 +1,31 @@
+This file contains message digests of all files listed in MANIFEST,
+signed via the Module::Signature module, version 0.05.
+
+To verify the content in this distribution, first make sure you have
+Module::Signature installed, then type:
+
+    % cpansign -v
+
+It would check each file's integrity, as well as the signature's
+validity.  If "==> Signature verified OK! <==" is not displayed,
+the distribution may already have been compromised, and you should
+not run its Makefile.PL or Build.PL.
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+SHA1 e6640663955c407f1ab2180db0ab0e1308e5b79c Changes
+SHA1 bdc9037671e00a959faf93db274a3a78bedc14c5 MANIFEST
+SHA1 c287d0374706ec8927509a5e7019dd4fe1297460 Makefile.PL
+SHA1 2295d2ded0e7e4ab060f42a54c9a06bff478efe6 README
+SHA1 a601982510e6478b4a5c4a7280fdf87c97dcb101 Safe.pm
+SHA1 264c3d905727185ba440d30c5e994f4eaa71b60a t/safe1.t
+SHA1 5298c9ea02825afdd2f0dfa9e4f2caca7c9697ac t/safe2.t
+SHA1 27f46b0df6582fd1ff6932ef9a3354bf1365747f t/safe3.t
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.0.7 (Darwin)
+
+iD8DBQE9nxFc4h8E5YWlfS8RAhCBAJ9SDlYF+Ugjn/8BTja2jdn5JPg3DACfRzK6
+nmQQdISd96iHBuODLP/ZNQA=
+=/P20
+-----END PGP SIGNATURE-----

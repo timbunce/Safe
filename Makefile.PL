@@ -1,6 +1,6 @@
 use ExtUtils::MakeMaker;
+require 5.008;
 WriteMakefile(
-    MAN3PODS 	=> ' ', 	# Pods will be built by installman.
-    XSPROTOARG => '-noprototypes', 		# XXX remove later?
+    NAME => 'Safe',
     VERSION_FROM => 'Safe.pm',
 );

@@ -1,5 +1,9 @@
-MANIFEST
+Changes
+MANIFEST			This list of files
+SIGNATURE
 Makefile.PL
+README
 Safe.pm
-Safe.xs
-t/safe.t
+t/safe1.t
+t/safe2.t
+t/safe3.t
