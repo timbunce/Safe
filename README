@@ -1,5 +1,13 @@
+Safe.pm
+=======
+
+This is a backport to CPAN of the perl core module Safe.pm.
+
+It is currently maintained by the Perl 5 Porters. Thus, you should use
+the perlbug utility to report bugs in it.
 
 Safe.pm 2.08
+============
 
 This CPAN release is a minor update of Safe.pm that fixes a security
 problem in reval and rdo where they would only be safe on the first run.

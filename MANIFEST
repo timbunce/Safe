@@ -1,9 +1,9 @@
 Changes
 MANIFEST			This list of files
-SIGNATURE
 Makefile.PL
 README
 Safe.pm
 t/safe1.t
 t/safe2.t
 t/safe3.t
+META.yml                                 Module meta-data (added by MakeMaker)
