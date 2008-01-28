@@ -1,4 +1,38 @@
-2.11 Fri Jul  2 14:37:35 2004
+2.13 Mon Jan 28 2008
+	- Backport the bleadperl version to CPAN. Changes:
+
+    Change 33096 on 2008/01/28 by rgs@stcosmo
+
+	    Bump the version of Safe
+
+    Change 33093 on 2008/01/28 by rgs@stcosmo
+
+	    In Safe, load Carp::Heavy only if it exists (to remain
+	    compatible with older perls)
+
+    Change 32597 on 2007/12/08 by rgs@counterfly
+
+	    Change maintainer address for Safe.
+
+    Change 32103 on 2007/10/12 by rgs@counterfly
+
+	    Funny symbol table names can be shared, too
+
+    Change 32102 on 2007/10/12 by rgs@counterfly
+
+	    Share the internal XS functions defined in universal.c
+	    to Safe compartments
+
+    Change 31610 on 2007/07/13 by rgs@stcosmo
+
+	    Use new style L<> links in POD
+
+    Change 26814 on 2006/01/13 by rgs@stencil
+
+	    Add a link to the Opcode doc in Safe.
+	    (see RT CPAN ticket #8579)
+
+2.11 Fri Jul  2 2004
 	- Backport the bleadperl version to CPAN. Changes:
 
     Change 22898 by rgs@valis on 2004/06/03 09:02:31

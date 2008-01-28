@@ -3,7 +3,7 @@ package Safe;
 use 5.003_11;
 use strict;
 
-$Safe::VERSION = "2.11";
+$Safe::VERSION = "2.13";
 
 # *** Don't declare any lexicals above this point ***
 #
@@ -26,7 +26,9 @@ sub lexless_anon_sub {
 }
 
 use Carp;
-use Carp::Heavy;
+BEGIN { eval q{
+    use Carp::Heavy;
+} }
 
 use Opcode 1.01, qw(
     opset opset_to_ops opmask_add
@@ -38,7 +40,55 @@ use Opcode 1.01, qw(
 
 
 my $default_root  = 0;
-my $default_share = ['*_']; #, '*main::'];
+# share *_ and functions defined in universal.c
+# Don't share stuff like *UNIVERSAL:: otherwise code from the
+# compartment can 0wn functions in UNIVERSAL
+my $default_share = [qw[
+    *_
+    &PerlIO::get_layers
+    &Regexp::DESTROY
+    &re::is_regexp
+    &re::regname
+    &re::regnames
+    &re::regnames_count
+    &Tie::Hash::NamedCapture::FETCH
+    &Tie::Hash::NamedCapture::STORE
+    &Tie::Hash::NamedCapture::DELETE
+    &Tie::Hash::NamedCapture::CLEAR
+    &Tie::Hash::NamedCapture::EXISTS
+    &Tie::Hash::NamedCapture::FIRSTKEY
+    &Tie::Hash::NamedCapture::NEXTKEY
+    &Tie::Hash::NamedCapture::SCALAR
+    &Tie::Hash::NamedCapture::flags
+    &UNIVERSAL::isa
+    &UNIVERSAL::can
+    &UNIVERSAL::DOES
+    &UNIVERSAL::VERSION
+    &utf8::is_utf8
+    &utf8::valid
+    &utf8::encode
+    &utf8::decode
+    &utf8::upgrade
+    &utf8::downgrade
+    &utf8::native_to_unicode
+    &utf8::unicode_to_native
+    &version::()
+    &version::new
+    &version::(""
+    &version::stringify
+    &version::(0+
+    &version::numify
+    &version::normal
+    &version::(cmp
+    &version::(<=>
+    &version::vcmp
+    &version::(bool
+    &version::boolean
+    &version::(nomethod
+    &version::noop
+    &version::is_alpha
+    &version::qv
+]];
 
 sub new {
     my($class, $root, $mask) = @_;
@@ -183,9 +233,6 @@ sub share_from {
     my $arg;
     foreach $arg (@$vars) {
 	# catch some $safe->share($var) errors:
-	croak("'$arg' not a valid symbol table name")
-	    unless $arg =~ /^[\$\@%*&]?\w[\w:]*$/
-	    	or $arg =~ /^\$\W$/;
 	my ($var, $type);
 	$type = $1 if ($var = $arg) =~ s/^(\W)//;
 	# warn "share_from $pkg $type $var";
@@ -304,7 +351,7 @@ compilation to fail with an error. The code will not be executed.
 The default operator mask for a newly created compartment is
 the ':default' optag.
 
-It is important that you read the Opcode(3) module documentation
+It is important that you read the L<Opcode> module documentation
 for more information, especially for detailed definitions of opnames,
 optags and opsets.
 
@@ -367,6 +414,9 @@ is implicit in each case.
 
 Permit the listed operators to be used when compiling code in the
 compartment (in I<addition> to any operators already permitted).
+
+You can list opcodes by names, or use a tag name; see
+L<Opcode/"Predefined Opcode Tags">.
 
 =item permit_only (OP, ...)
 
@@ -563,11 +613,11 @@ but more subtle effect.
 
 =head2 AUTHOR
 
-Originally designed and implemented by Malcolm Beattie,
-mbeattie@sable.ox.ac.uk.
+Originally designed and implemented by Malcolm Beattie.
 
-Reworked to use the Opcode module and other changes added by Tim Bunce
-E<lt>F<Tim.Bunce@ig.co.uk>E<gt>.
+Reworked to use the Opcode module and other changes added by Tim Bunce.
+
+Currently maintained by the Perl 5 Porters, <perl5-porters@perl.org>.
 
 =cut
 
