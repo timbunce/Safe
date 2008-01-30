@@ -1,3 +1,6 @@
+2.14 Mon Jan 30 2008
+	- Make Safe work with Perl 5.6 (changes 33102 and 33105 to perl)
+
 2.13 Mon Jan 28 2008
 	- Backport the bleadperl version to CPAN. Changes:
 
