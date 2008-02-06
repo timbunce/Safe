@@ -6,4 +6,5 @@ Safe.pm
 t/safe1.t
 t/safe2.t
 t/safe3.t
+t/safeload.t
 META.yml                                 Module meta-data (added by MakeMaker)
