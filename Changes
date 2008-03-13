@@ -1,3 +1,12 @@
+2.16 Thu Mar 13 2008
+    Fix a few backcompat issues:
+
+    Change 33503 on 2008/03/13 by rgs@stcosmo
+	Regexp::DESTROY was only added in 5.8.1
+
+    Change 33278 on 2008/02/11 by rgs@stcosmo
+	Fix test to pass en 5.6.2 (unpack is needed by version.pm there)
+
 2.15 Wed Feb  6 2008
     Change 33238 on 2008/02/05 by rgs@stcosmo
 	Adapt Safe innards to older (XS) versions of version.pm
