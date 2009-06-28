@@ -1,3 +1,7 @@
+2.17 Sun Jun 28 2009
+    Sync with code reorganisation in bleadperl
+    Plus new tests
+
 2.16 Thu Mar 13 2008
     Fix a few backcompat issues:
 
