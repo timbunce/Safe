@@ -1,3 +1,9 @@
+2.19 Tue Aug 25 2009
+    t/safeuniversal.t failure under 5.8.9 (Jerry D. Hedden)
+
+2.18 released with perl 5.10.1
+    [perl #68530] "version::CLASS" warning in Safe.pm (Dave Mitchell)
+
 2.17 Sun Jun 28 2009
     Sync with code reorganisation in bleadperl
     Plus new tests
